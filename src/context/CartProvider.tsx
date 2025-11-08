@@ -3,6 +3,8 @@ import { getProduct } from "../api/orderApi";
 import { CartContext, type CartContextState } from "./cartContext";
 import type { Product } from "../types";
 
+const CART_STORAGE_KEY = 'myAppCartQuantity';
+
 interface CartProviderProps {
     children: ReactNode;
 }
@@ -13,13 +15,24 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     const [error, setError] = useState<string | null>(null);
 
     const [selectedQuantity, setSelectedQuantity] = useState(1);
-    const [cartQuantity, setCartQuantity] = useState(0);
+    const [cartQuantity, setCartQuantity] = useState(() => {
+        const storedQty = localStorage.getItem(CART_STORAGE_KEY);
+        return storedQty ? Number(storedQty) : 0;
+    });
+
+    useEffect(() => {
+        localStorage.setItem(CART_STORAGE_KEY, cartQuantity.toString());
+    }, [cartQuantity]);
 
     useEffect(() => {
         const loadPoduct = async () => {
             try {
                 const productData = await getProduct();
                 setProduct(productData);
+
+                if (cartQuantity > productData.stockQuantity) {
+                    setCartQuantity(productData.stockQuantity);
+                }
             } catch (error) {
                 if (error instanceof Error) {
                     setError(error.message);
@@ -32,6 +45,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         };
 
         loadPoduct();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const addToCart = () => {

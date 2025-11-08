@@ -8,7 +8,6 @@ export interface CartContextState {
     // State for product page
     selectedQuantity: number;
     setSelectedQuantity: (qunatity: number) => void;
-
     // State for the actual cart
     cartQuantity: number;
     updateCartQuantity: (quantity: number) => void;

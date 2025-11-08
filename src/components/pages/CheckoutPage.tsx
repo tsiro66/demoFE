@@ -1,13 +1,40 @@
-import { useCart } from "../hook/useCart";
-import { CheckoutForm } from "../components/CheckoutForm";
-import { Link, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useCart } from "../../hooks/useCart";
+import { useTracking } from "../../hooks/useTracking";
+import { CheckoutForm } from "../CheckoutForm";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
 
 const CheckoutPage = () => {
-  const { product, cartQuantity, totalAmount } = useCart();
+  const { product, cartQuantity, totalAmount, isLoading, error } = useCart();
+  const trackEvent = useTracking();
+  const navigate = useNavigate();
 
-  // Protect this page: If cart is empty, redirect to home
+  useEffect(() => {
+    if (!isLoading && product && cartQuantity > 0) {
+      trackEvent("begin_checkout", {
+        page: "CheckoutPage",
+        productId: product.id,
+        quantity: cartQuantity,
+        total: totalAmount,
+      });
+    }
+  }, [isLoading, product, cartQuantity, totalAmount, trackEvent]);
+
+    useEffect(() => {
+      if (error) {
+        navigate("/backenderror", { state: { message: error } });
+      }
+    }, [error, navigate]);
+
+  if (isLoading) {
+    return (
+      <LoadingSpinner />
+    );
+  }
+
   if (!product || cartQuantity === 0) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" />;
   }
 
   return (
@@ -31,9 +58,7 @@ const CheckoutPage = () => {
         </svg>
         Back
       </Link>
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-8">
-        Checkout
-      </h1>
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Checkout</h1>
       <div className="grid lg:grid-cols-2 lg:gap-16">
         {/* Left Column: Order Summary */}
         <div className="bg-white p-8 rounded-2xl shadow-xl h-fit">
@@ -65,11 +90,7 @@ const CheckoutPage = () => {
           </div>
         </div>
 
-        {/* Right Column: Checkout Form */}
         <div className="mt-12 lg:mt-0">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
-            Shipping & Payment
-          </h1>
           <CheckoutForm />
         </div>
       </div>

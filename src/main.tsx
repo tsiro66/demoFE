@@ -3,39 +3,50 @@ import { createRoot } from "react-dom/client";
 import "./App.css";
 import { CartProvider } from "./context/CartProvider.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./components/LandingPage.tsx";
-import NotFound from "./components/NotFound.tsx";
+import LandingPage from "./components/pages/LandingPage.tsx";
+import NotFound from "./components/pages/NotFoundPage.tsx";
 import AppLayout from "./components/AppLayout.tsx";
-import CartPage from "./components/CartPage.tsx";
-import CheckoutPage from "./components/CheckoutPage.tsx";
-import ConfirmationPage from "./components/ConfirmationPage.tsx";
+import CartPage from "./components/pages/CartPage.tsx";
+import CheckoutPage from "./components/pages/CheckoutPage.tsx";
+import ConfirmationPage from "./components/pages/ConfirmationPage.tsx";
+import { AnimatedOutlet } from "./components/AnimatedOutlet.tsx";
+import BackendErrorPage from "./components/pages/BackendErrorPage.tsx";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: <AnimatedOutlet />,
     errorElement: <NotFound />,
     children: [
       {
-        path: "/",
-        element: <LandingPage />,
+        element: <AppLayout />,
+        children: [
+          {
+            path: "/",
+            element: <LandingPage />,
+          },
+        ],
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "/confirmation",
+        element: <ConfirmationPage />,
+      },
+      {
+        path: "/backenderror",
+        element: <BackendErrorPage />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
-  },
-  {
-    path: "/cart",
-    element: <CartPage />,
-  },
-  {
-    path: "/checkout",
-    element: <CheckoutPage />,
-  },
-  {
-    path: "/confirmation",
-    element: <ConfirmationPage />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
   },
 ]);
 

@@ -1,12 +1,9 @@
-// src/components/CheckoutForm.tsx
-
 import React, { useState } from 'react';
-import { useCart } from '../hook/useCart';
+import { useCart } from '../hooks/useCart';
 import { placeOrder } from '../api/orderApi';
-import { useNavigate } from 'react-router-dom'; // Import the navigation hook
+import { useNavigate } from 'react-router-dom';
 import type { OrderRequest } from '../types';
 
-// Define the initial state for the form
 const initialFormData: Omit<OrderRequest, 'productId' | 'quantity' | 'paymentToken'> = {
     firstName: '',
     lastName: '',
@@ -18,7 +15,7 @@ const initialFormData: Omit<OrderRequest, 'productId' | 'quantity' | 'paymentTok
 
 export const CheckoutForm = () => {
     const { product, cartQuantity, totalAmount } = useCart();
-    const navigate = useNavigate(); // Hook for programmatic navigation
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState(initialFormData);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,7 +39,7 @@ export const CheckoutForm = () => {
             ...formData,
             productId: product.id,
             quantity: cartQuantity,
-            paymentToken: 'MOCK_TOKEN_FOR_DEMO', // The mock payment token
+            paymentToken: 'MOCK_TOKEN_FOR_DEMO', // Mock payment token
         };
 
         try {
@@ -67,7 +64,7 @@ export const CheckoutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-6 lg:p-8 rounded-2xl shadow-xl space-y-4">
-            <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-4">
+            <h3 className="text-2xl font-bold text-gray-900 pb-4">
                 Shipping & Payment
             </h3>
 
@@ -106,7 +103,7 @@ export const CheckoutForm = () => {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-indigo-600 text-white p-4 rounded-lg text-lg font-bold hover:bg-indigo-700 hover:scale-102 transition duration-150
+                className="w-full bg-indigo-600 text-white p-4 rounded-4xl text-lg font-bold hover:bg-indigo-700 hover:scale-102 transition duration-150
                  disabled:bg-indigo-300 cursor-pointer"
             >
                 {isSubmitting ? 'Processing...' : `Pay $${totalAmount.toFixed(2)}`}

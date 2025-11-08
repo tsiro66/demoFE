@@ -1,39 +1,38 @@
-import React, { useState } from 'react';
-import { useCart } from '../hook/useCart';
+import { useState } from 'react';
+import { useCart } from '../hooks/useCart';
+import { useTracking } from '../hooks/useTracking';
 
-export const ProductDisplay: React.FC = () => {
-    // Get the new state and functions
+export const ProductDisplay = () => {
     const { product, selectedQuantity, setSelectedQuantity, addToCart, isLoading } = useCart();
     const [showAdded, setShowAdded] = useState(false);
+    const trackEvent = useTracking();
 
     const handleAddToCart = () => {
-        // 1. Add the items to the cart state
+        trackEvent('add_to_cart', {
+            productId: product?.id,
+            quantity: selectedQuantity
+        });
+
         addToCart();
 
-        // 2. (Optional) Show a "Added!" message
         setShowAdded(true);
-        setTimeout(() => setShowAdded(false), 1500); // Hide after 1.5s
-        
-        // 3. Navigate to the cart page as before
-        // We delay navigation slightly so the user sees the icon update
-
+        setTimeout(() => setShowAdded(false), 1500);
     };
 
     if (isLoading || !product) return null;
 
     return (
-        <div className="grid lg:grid-cols-5 lg:gap-16 items-center">
-            {/* Left Column: Product Image */}
-            <div className='flex justify-center lg:justify-end lg:col-span-2'>
+        <div className="grid lg:grid-cols-3 lg:gap-30 items-center">
+
+            <div className='flex justify-center lg:col-span-1'>
                 <img
                     src={product.imageUrl || 'https://via.placeholder.com/800x600.png?text=Product+Image'}
                     alt={product.name}
-                    className="max-w-2xs lg:max-w-sm h-auto object-cover"
+                    className="max-w-56 lg:max-w-sm h-auto"
                 />
             </div>
 
-            {/* Right Column: Product Details & Actions */}
-            <div className="space-y-6 mt-12 lg:mt-0 lg:col-span-3">
+            <div className="space-y-6 mt-12 lg:mt-0 lg:col-span-2">
                 <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">{product.name}</h2>
                 <span className="block text-4xl font-bold text-indigo-600">
                     ${product.price.toFixed(2)}
@@ -41,7 +40,6 @@ export const ProductDisplay: React.FC = () => {
                 <p className="lg:text-xl text-gray-600">{product.description}</p>
 
                 <div className="border-t border-gray-200 pt-6 space-y-4">
-                    {/* Quantity Selector */}
                     <div className="flex items-center space-x-3">
                         <label htmlFor="quantity" className="text-base font-medium text-gray-700">
                             Quantity
@@ -51,25 +49,25 @@ export const ProductDisplay: React.FC = () => {
                             id="quantity"
                             name="quantity"
                             min="1"
-                            max={product.stockQuantity > 10 ? 10 : product.stockQuantity}
-                            // Use selectedQuantity and setSelectedQuantity
+                            max={product.stockQuantity}
                             value={selectedQuantity}
                             onChange={(e) => setSelectedQuantity(Number(e.target.value))}
-                            className="w-20 rounded-md border-gray-300 shadow-sm text-center p-2 focus:border-indigo-500 focus:ring-indigo-500"
+                            className="w-20 rounded-4xl border-gray-300 shadow-lg text-center p-2 focus:border-indigo-500 focus:ring-indigo-500"
                         />
                         {product.stockQuantity <= 10 && (
                             <span className="text-sm text-red-600">Only {product.stockQuantity} left!</span>
                         )}
-                    </div>
-
-                    {/* Add to Cart Button */}
                     <button
                         onClick={handleAddToCart}
-                        disabled={showAdded} // Disable button briefly after click
-                        className="w-full bg-indigo-600 text-white p-4 rounded-lg text-lg font-bold hover:bg-indigo-700 transition hover:scale-102 duration-300 ease-in-out cursor-pointer disabled:bg-green-500"
+                        disabled={showAdded}
+                        className="w-full bg-indigo-600 text-white p-2 rounded-4xl text-lg font-bold hover:bg-indigo-700 shadow-lg
+                        transition hover:scale-102 hover:shadow-xl duration-300 ease-in-out cursor-pointer disabled:bg-green-500"
                     >
                         {showAdded ? "Added to Cart!" : "Add to Cart"}
                     </button>
+                    </div>
+
+                    
                 </div>
             </div>
         </div>
