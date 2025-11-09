@@ -1,5 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Stack+Sans+Text:wght@200..700&display=swap');
 @import "tailwindcss";
+
+body {
+  font-family: 'Stack Sans Text', sans-serif;
+}
+
+.header-font {
+  font-family: 'Momo Trust Display', sans-serif;
+}
 
 body::-webkit-scrollbar {
   display: none;
 }
+

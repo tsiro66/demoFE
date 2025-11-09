@@ -21,16 +21,14 @@ const CheckoutPage = () => {
     }
   }, [isLoading, product, cartQuantity, totalAmount, trackEvent]);
 
-    useEffect(() => {
-      if (error) {
-        navigate("/backenderror", { state: { message: error } });
-      }
-    }, [error, navigate]);
+  useEffect(() => {
+    if (error) {
+      navigate("/backenderror", { state: { message: error } });
+    }
+  }, [error, navigate]);
 
   if (isLoading) {
-    return (
-      <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
   }
 
   if (!product || cartQuantity === 0) {
@@ -38,7 +36,7 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto p-6">
       <Link
         to="/cart"
         className="inline-flex items-center text-indigo-600 hover:text-indigo-800 transition mb-4 group"

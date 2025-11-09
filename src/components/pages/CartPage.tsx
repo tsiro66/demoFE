@@ -76,8 +76,7 @@ export const CartPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-6 py-12">
-      
+    <div className="container mx-auto p-6">
       <Link
         to="/"
         className="inline-flex items-center text-indigo-600 hover:text-indigo-800 transition mb-4 group"
@@ -139,12 +138,12 @@ export const CartPage = () => {
           </div>
         </div>
       </div>
-      
+
       {createPortal(
         // I use createPortal to stop unwanted behavior of fixed button in the entrance
         <button
           onClick={() => navigate("/checkout")}
-          className="fixed bottom-10 right-10 lg:bottom-20 lg:right-60 px-8 py-3 bg-indigo-600 text-white text-lg font-bold rounded-4xl
+          className="fixed bottom-10 right-10 lg:bottom-20 lg:right-20 px-8 py-3 bg-indigo-600 text-white text-sm lg:text-lg font-bold rounded-4xl
           hover:bg-indigo-700 hover:scale-102 transition duration-300 cursor-pointer"
         >
           Proceed to Checkout

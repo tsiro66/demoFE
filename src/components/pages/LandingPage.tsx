@@ -4,6 +4,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTracking } from "../../hooks/useTracking";
+import Testimonials from "../Testimonials";
 
 const LandingPage = () => {
   const { product, isLoading, error } = useCart();
@@ -18,9 +19,9 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (product) {
-      trackEvent('page_view', { 
-        page: 'LandingPage', 
-        productId: product.id
+      trackEvent("page_view", {
+        page: "LandingPage",
+        productId: product.id,
       });
     }
   }, [product, trackEvent]);
@@ -41,12 +42,10 @@ const LandingPage = () => {
 
   return (
     <>
-      <div
-        className="container mx-auto px-6 max-w-4xl py-16 lg:py-24"
-        id="product"
-      >
+      <div className="container mx-auto px-6 max-w-4xl py-16" id="product">
         <ProductDisplay />
       </div>
+      <Testimonials />
     </>
   );
 };

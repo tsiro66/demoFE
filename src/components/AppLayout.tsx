@@ -1,11 +1,11 @@
-import { Outlet, Link } from 'react-router-dom';
-import { useCart } from '../hooks/useCart';
+import { Outlet, Link } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
 import { FiShoppingCart } from "react-icons/fi";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const AppLayout = () => {
   const { cartQuantity } = useCart();
-  
+
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,32 +19,34 @@ const AppLayout = () => {
     };
 
     // Add the event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header 
+      <header
         className={`
           sticky top-0 z-50 transition duration-200 ease-in-out
-          ${isScrolled ? 'shadow-lg bg-white-70 backdrop-blur-md' : 'shadow-none'}
+          ${isScrolled ? "shadow-lg backdrop-blur-md" : "shadow-none"}
         `}
       >
         <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-          
-          <Link to="/" className='text-3xl font-extrabold text-indigo-600'>
-            SmartWatch
+          <Link to="/" className="header-font text-3xl font-extrabold">
+            Smart Watch
           </Link>
 
-          <Link to="/cart" className="relative p-2 rounded-full hover:bg-gray-100">
-            <FiShoppingCart className='text-2xl'/>
+          <Link
+            to="/cart"
+            className="relative p-2 rounded-full hover:bg-gray-100"
+          >
+            <FiShoppingCart className="text-2xl" />
             {cartQuantity > 0 && (
-              <span className="absolute top-0 right-0 h-4 w-4 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">
+              <span className="absolute top-0 right-0 h-4 min-w-4 px-1 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">
                 {cartQuantity}
               </span>
             )}
@@ -52,7 +54,7 @@ const AppLayout = () => {
         </nav>
       </header>
 
-      <main className='grow'>
+      <main className="grow">
         <Outlet />
       </main>
 
