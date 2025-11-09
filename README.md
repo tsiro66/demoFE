@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# E-Commerce Demo Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is the complete frontend for a single-product e-commerce demo site. It is built with React, Vite, and Tailwind CSS, focusing on a clean, modern, multi-page user funnel.
 
-Currently, two official plugins are available:
+It features a product landing page, a persistent shopping cart, a distraction-free checkout flow, and full-stack marketing event tracking.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **React 18 (with Hooks)**
+* **Vite**: For fast, modern development and bundling.
+* **TypeScript**: For type safety across the application.
+* **Tailwind CSS**: For all styling.
+* **React Router (v6)**: For client-side routing.
+* **Framer Motion**: For all page transitions and micro-interactions.
+* **Axios**: For communicating with the backend API.
+* **React Icons**: For UI icons.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Core Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **4-Page Funnel**: A logical user flow from Landing → Cart → Checkout → Confirmation.
+* **Persistent Cart**: Cart quantity is saved in `localStorage`, allowing users to refresh the page without losing their order.
+* **Full-Stack Event Tracking**: Implements a `useTracking` hook that sends key marketing events (`page_view`, `add_to_cart`, `begin_checkout`) to a backend analytics endpoint.
+* **Central State Management**: Uses React Context (`CartContext`) to manage product data, cart state, and loading/error states across the entire app.
+* **Animated Transitions**: All page transitions are animated using Framer Motion for a smooth, professional feel.
+* **Responsive Design**: Fully responsive layout built with Tailwind CSS.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 1. Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+
+1. **Node.js** (v18 or higher) and **npm**
+2. The **E-Commerce Backend** project must be running (by default on [http://localhost:8080](http://localhost:8080)).
+
+---
+
+## 2. Setup & Installation
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/tsiro66/demoFE.git
+cd demoFE
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Step 2: Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This will install React, Tailwind, Axios, Framer Motion, and all other required packages.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+---
+
+## 3. Running the Application
+
+### Step 1: Start the Backend Server
+
+Ensure your Spring Boot backend is running on [http://localhost:8080](http://localhost:8080) (or whichever port you configured).  
+The frontend cannot function without it.
+
+### Step 2: Start the Frontend Dev Server
+
+```bash
+npm run dev
+```
+
+This will start the Vite development server, typically on [http://localhost:5173](http://localhost:5173).
+
+Open this URL in your browser to see the live application.  
+The app will automatically connect to your backend, fetch the product, and enable the full shopping funnel.
